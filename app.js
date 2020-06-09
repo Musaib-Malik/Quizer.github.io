@@ -60,8 +60,6 @@ async function showQuestion() {
         `;
       });
 
-      document.querySelector('.welcome-container').style.height = 'auto';
-
       if (questionCount === 4) {
         container.innerHTML = `
           <h1 id="result-heading">
@@ -78,6 +76,8 @@ async function showQuestion() {
             Try Again
           </button>
         `;
+
+        document.querySelector('.welcome-container').style.height = '65vh';
 
         document.querySelector("#reset-btn").addEventListener("click", () => {
           window.location.reload();
