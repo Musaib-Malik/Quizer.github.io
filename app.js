@@ -60,6 +60,8 @@ async function showQuestion() {
         `;
       });
 
+      document.querySelector('.welcome-container').style.height = 'auto';
+
       if (questionCount === 4) {
         container.innerHTML = `
           <h1 id="result-heading">
