@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Asap:wght@500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Sacramento&display=swap");
 
 * {
   margin: 0;
@@ -18,8 +19,8 @@ body {
   left: 50%;
   top: 40%;
   transform: translate(-50%, -50%);
-  height: 60vh;
-  width: 80%;
+  height: 70vh;
+  width: 90%;
   border-radius: 5px;
   box-shadow: 3px 3px 30px black;
   background-color: #222;
@@ -38,6 +39,7 @@ body {
   font-family: sacramento;
   font-weight: bolder;
   font-size: 1.7rem;
+  width: 100%;
 }
 
 #btn-div {
@@ -74,7 +76,6 @@ body {
 }
 
 #next-page-btn {
-
   position: absolute;
   bottom: 1em;
   right: 0;
@@ -122,7 +123,7 @@ body {
 }
 
 #question-header {
-  background-color: #007FFF;
+  background-color: #007fff;
   padding: 1.5em;
 }
 
@@ -141,17 +142,17 @@ body {
   border-radius: 20px;
   border: 1px #000 solid;
   width: 50%;
-  margin: .7em;
+  margin: 0.7em;
   font-family: Montserrat;
   color: whitesmoke;
   cursor: pointer;
   transition: all 300ms ease-in-out;
+  outline: none;
 }
 
 #result-heading {
   text-align: center;
   font-family: Montserrat;
-  padding: .5em;
   text-decoration: underline;
   color: whitesmoke;
 }
