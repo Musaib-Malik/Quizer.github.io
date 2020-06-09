@@ -53,6 +53,8 @@ async function showQuestion() {
       // Shuffle the Array
       let shuffled = finalArray.sort(() => Math.random() - 0.5);
 
+      document.querySelector('.welcome-container').style.height = 'auto';
+
       // Display the Options
       finalArray.forEach((option) => {
         document.querySelector("#answer-list").innerHTML += ` 
