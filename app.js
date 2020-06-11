@@ -2,6 +2,7 @@
 const takeQuizBtn = document.querySelector("#welcome-page-btn");
 const container = document.querySelector(".welcome-container");
 const spinner = document.querySelector(".spinner");
+const numberOfQuestions = document.querySelector("#number-of-questions");
 
 // Local Variables
 let score = 0;
@@ -10,28 +11,35 @@ let questionCount = 0;
 // Event Handler
 takeQuizBtn.addEventListener("click", showQuestion);
 
+numberOfQuestions.addEventListener("focus", clearPlaceHolder);
+
+numberOfQuestions.addEventListener("blur", showPlaceHolder);
+
 // Show Question
 async function showQuestion() {
-  // Show Spinner
-  showSpinner();
+  if (isNaN(numberOfQuestions.value)) {
+    alert("Please enter a number of questions!");
+  } else {
+    // Show Spinner
+    showSpinner();
 
-  // Make an HTTP request
-  const response = await fetch("https://opentdb.com/api.php?amount=1");
+    // Make an HTTP request
+    const response = await fetch("https://opentdb.com/api.php?amount=1");
 
-  // Validation
-  if (response.ok) {
-    // Hide Spinner
-    hideSpinner();
+    // Validation
+    if (response.ok) {
+      // Hide Spinner
+      hideSpinner();
 
-    // Raise Count by 1
-    questionCount++;
+      // Raise Count by 1
+      questionCount++;
 
-    // Convert to JSON
-    const questions = await response.json();
+      // Convert to JSON
+      const questions = await response.json();
 
-    // Display The Results
-    questions.results.forEach((question) => {
-      container.innerHTML = `
+      // Display The Results
+      questions.results.forEach((question) => {
+        container.innerHTML = `
       <header id="question-header">
       <h4 id="question">${question.question}</h4>
       </header>
@@ -40,30 +48,30 @@ async function showQuestion() {
       <button id='next-page-btn'>Next</button>
     `;
 
-      let finalArray = [];
+        let finalArray = [];
 
-      // Push Wrong answers to final array
-      question.incorrect_answers.forEach((wrongAnswer) => {
-        finalArray.push(wrongAnswer);
-      });
+        // Push Wrong answers to final array
+        question.incorrect_answers.forEach((wrongAnswer) => {
+          finalArray.push(wrongAnswer);
+        });
 
-      // Push correct answer to final array
-      finalArray.push(question.correct_answer);
+        // Push correct answer to final array
+        finalArray.push(question.correct_answer);
 
-      // Shuffle the Array
-      let shuffled = finalArray.sort(() => Math.random() - 0.5);
+        // Shuffle the Array
+        let shuffled = finalArray.sort(() => Math.random() - 0.5);
 
-      document.querySelector('.welcome-container').style.height = 'auto';
+        document.querySelector(".welcome-container").style.height = "auto";
 
-      // Display the Options
-      finalArray.forEach((option) => {
-        document.querySelector("#answer-list").innerHTML += ` 
+        // Display the Options
+        finalArray.forEach((option) => {
+          document.querySelector("#answer-list").innerHTML += ` 
           <li class="option">${option}</li>
         `;
-      });
+        });
 
-      if (questionCount === 4) {
-        container.innerHTML = `
+        if (questionCount > numberOfQuestions.value) {
+          container.innerHTML = `
           <h1 id="result-heading">
             Thanks for participating!
           </h1>
@@ -79,84 +87,95 @@ async function showQuestion() {
           </button>
         `;
 
-        document.querySelector('.welcome-container').style.height = '65vh';
+          document.querySelector(".welcome-container").style.height = "65vh";
 
-        document.querySelector("#reset-btn").addEventListener("click", () => {
-          window.location.reload();
-        });
-      } else {
-        // Add Event Listener to Answer-List
-        document
-          .querySelector("#answer-list")
-          .addEventListener("click", checkAnswer);
-
-        // Set Event handler to get next question
-        document
-          .querySelector("#next-page-btn")
-          .addEventListener("click", showQuestion);
-      }
-
-      // Verify to see if it is the right answer
-      function checkAnswer(e) {
-        if (
-          e.target.textContent === question.correct_answer &&
-          e.target.classList.contains("option")
-        ) {
-          // Add Correct Class and Remove Event Listener
-          e.target.id = "correct";
-
-          document
-            .querySelector("#answer-list")
-            .removeEventListener("click", checkAnswer);
-
-          // Show Next Button
-          document.querySelector("#next-page-btn").style.display = "block";
-
-          // Increase Score by 10
-          score += 10;
-        } else if (
-          e.target.textContent !== question.correct_answer &&
-          e.target.classList.contains("option")
-        ) {
-          // Show Correct Answer
-          const options = document.querySelectorAll(".option");
-          options.forEach((opt) => {
-            if (opt.textContent === question.correct_answer) {
-              opt.id = "correct";
-            }
+          document.querySelector("#reset-btn").addEventListener("click", () => {
+            window.location.reload();
           });
-
-          // Add Wrong Class and Remove Event Listener
-          e.target.classList.add("wrong");
-
+        } else {
+          // Add Event Listener to Answer-List
           document
             .querySelector("#answer-list")
-            .removeEventListener("click", checkAnswer);
+            .addEventListener("click", checkAnswer);
 
-          // Decrease Score by 5
-          score -= 5;
-
-          // Show Next Button
-          document.querySelector("#next-page-btn").style.display = "block";
+          // Set Event handler to get next question
+          document
+            .querySelector("#next-page-btn")
+            .addEventListener("click", showQuestion);
         }
-      }
-    });
+
+        // Verify to see if it is the right answer
+        function checkAnswer(e) {
+          if (
+            e.target.textContent === question.correct_answer &&
+            e.target.classList.contains("option")
+          ) {
+            // Add Correct Class and Remove Event Listener
+            e.target.id = "correct";
+
+            document
+              .querySelector("#answer-list")
+              .removeEventListener("click", checkAnswer);
+
+            // Show Next Button
+            document.querySelector("#next-page-btn").style.display = "block";
+
+            // Increase Score by 10
+            score += 10;
+          } else if (
+            e.target.textContent !== question.correct_answer &&
+            e.target.classList.contains("option")
+          ) {
+            // Show Correct Answer
+            const options = document.querySelectorAll(".option");
+            options.forEach((opt) => {
+              if (opt.textContent === question.correct_answer) {
+                opt.id = "correct";
+              }
+            });
+
+            // Add Wrong Class and Remove Event Listener
+            e.target.classList.add("wrong");
+
+            document
+              .querySelector("#answer-list")
+              .removeEventListener("click", checkAnswer);
+
+            // Decrease Score by 5
+            score -= 5;
+
+            // Show Next Button
+            document.querySelector("#next-page-btn").style.display = "block";
+          }
+        }
+      });
+    }
   }
 }
-
 // Show Spinner
 function showSpinner() {
   container.innerHTML = `
-  <div id="btn-div">
+  
+  <div id="spinner-div">
   <i
   class="fa fa-circle-o-notch fa-spin spinner"
   style="font-size: 60px; color: deeppink;"
   ></i>
-  </div>
+ </div>
   `;
 }
 
 // Hide Spinner
 function hideSpinner() {
-  document.querySelector("#btn-div").remove();
+  document.querySelector("#spinner-div").remove();
+}
+
+// Clear Place Holder Content
+function clearPlaceHolder() {
+  this.placeholder = "";
+}
+
+// Show Place Holder Content
+function showPlaceHolder() {
+  this.placeholder = "Enter no of questions";
 }

@@ -4,6 +4,26 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Sacramento&display=swap");
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+::-webkit-input-placeholder {
+  /* Edge */
+  color: grey;
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: grey;
+}
+
+::placeholder {
+  color: grey;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -42,11 +62,12 @@ body {
   width: 100%;
 }
 
-#btn-div {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+#start-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
 }
 
 #welcome-page-btn {
@@ -61,6 +82,18 @@ body {
   box-shadow: 1px 1px 3px black;
   outline: none;
   color: white;
+  margin-top: 1.5em;
+}
+
+#number-of-questions {
+  padding: 8px;
+  background: none;
+  border: 1px whitesmoke solid;
+  border-radius: 20px;
+  outline: none;
+  font-family: montserrat;
+  color: white;
+  text-align: center;
 }
 
 #welcome-page-btn:hover {
@@ -194,6 +227,13 @@ body {
   opacity: 0;
   animation: animate 580ms ease-in-out;
   animation-fill-mode: forwards;
+}
+
+#spinner-div {
+  display: flex;
+  justify-content: center;
+  height: 50vh;
+  align-items: center;
 }
 
 @media (min-width: 767px) {
